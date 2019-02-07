@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>自动发送邮件</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/javascripts/jquery.js"></script>
+  </head>
+  <body>
+     <p><label>发送邮箱号:</label><input type="text" id="input1" value=""></p>
+     <p><label>发送内容:</label><input type="text" id="input2" value=""></p>
+     <p><button type="button" onclick="check()">发送</button></p>
+  </body>
+  <script type="text/javascript">
+    function check() {
+      var num=document.getElementById("input1").value;
+      var num1=document.getElementById("input2").value;
+      var email=/\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+      if(num==""){
+        alert("邮箱号不能为空");
+        return false
+      }
+      if(num1==""){
+        alert("发送内容不能为空");
+        return false
+      }
+      if(email.test(num)){
+          $.ajax(
+              {
+                  url:"http://localhost:3000/",
+                  type:"get",
+                  data:{emailName:num,text:num1},
+                  success:function () {
+                      console.log("发送成功");
+                  },
+                  error:function () {
+                      console.log("错误发生在index.ejs 36行")
+                  }
+              }
+          )
+        }else{
+        alert("请输入正确的的邮箱号");
+        return false
+      }
+
+    }
+  </script>
+</html>
